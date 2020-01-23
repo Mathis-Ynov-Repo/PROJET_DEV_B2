@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le :  jeu. 23 jan. 2020 à 16:16
+-- Généré le :  jeu. 23 jan. 2020 à 16:30
 -- Version du serveur :  10.3.12-MariaDB
 -- Version de PHP :  7.4.1
 
@@ -77,7 +77,9 @@ INSERT INTO `commande_plats` (`Id`, `Prix`, `Id_Commande`, `Id_Plat`, `Id_menu`)
 DROP TABLE IF EXISTS `membres`;
 CREATE TABLE IF NOT EXISTS `membres` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Libelle` varchar(50) NOT NULL,
+  `Nom` varchar(50) NOT NULL,
+  `mail` varchar(255) NOT NULL,
+  `mot_de_passe_hash` varchar(255) NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -85,10 +87,10 @@ CREATE TABLE IF NOT EXISTS `membres` (
 -- Déchargement des données de la table `membres`
 --
 
-INSERT INTO `membres` (`Id`, `Libelle`) VALUES
-(1, 'John'),
-(2, 'Carl'),
-(3, 'Antho');
+INSERT INTO `membres` (`Id`, `Nom`, `mail`, `mot_de_passe_hash`) VALUES
+(1, 'John', '', ''),
+(2, 'Carl', '', ''),
+(3, 'Antho', '', '');
 
 -- --------------------------------------------------------
 
@@ -217,16 +219,16 @@ DROP TABLE IF EXISTS `restaurants`;
 CREATE TABLE IF NOT EXISTS `restaurants` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Libelle` varchar(50) NOT NULL,
-  `Id_Membre` int(11) NOT NULL,
+  `Id_Restaurateur` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
-  KEY `FK_Restaurants_Membres` (`Id_Membre`)
+  KEY `Id_Restaurateur` (`Id_Restaurateur`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `restaurants`
 --
 
-INSERT INTO `restaurants` (`Id`, `Libelle`, `Id_Membre`) VALUES
+INSERT INTO `restaurants` (`Id`, `Libelle`, `Id_Restaurateur`) VALUES
 (1, 'Coeur', 2),
 (2, 'FD', 1);
 
@@ -240,6 +242,8 @@ DROP TABLE IF EXISTS `restaurateur`;
 CREATE TABLE IF NOT EXISTS `restaurateur` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(255) NOT NULL,
+  `mail` varchar(255) NOT NULL,
+  `mot_de_passe_hash` varchar(255) NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
