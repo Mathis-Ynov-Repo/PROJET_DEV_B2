@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le :  jeu. 23 jan. 2020 à 13:29
+-- Généré le :  jeu. 23 jan. 2020 à 16:16
 -- Version du serveur :  10.3.12-MariaDB
 -- Version de PHP :  7.4.1
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `commandes` (
   `Id_Membre` int(11) NOT NULL,
   `DateAchat` datetime(3) NOT NULL,
   `DateReception` datetime(3) NOT NULL,
-  `Reduction` int(11) NOT NULL,
+  `Prix` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_Commandes_Membres` (`Id_Membre`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -51,20 +51,22 @@ CREATE TABLE IF NOT EXISTS `commande_plats` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Prix` int(11) NOT NULL,
   `Id_Commande` int(11) NOT NULL,
-  `Id_Plat` int(11) NOT NULL,
+  `Id_Plat` int(11) DEFAULT NULL,
+  `Id_menu` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `FK_Commande_Plats_Plats` (`Id_Plat`)
+  KEY `Id_Plat` (`Id_Plat`),
+  KEY `Id_menu` (`Id_menu`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `commande_plats`
 --
 
-INSERT INTO `commande_plats` (`Id`, `Prix`, `Id_Commande`, `Id_Plat`) VALUES
-(1, 0, 5, 4),
-(2, 0, 5, 7),
-(3, 0, 8, 7),
-(4, 2, 8, 7);
+INSERT INTO `commande_plats` (`Id`, `Prix`, `Id_Commande`, `Id_Plat`, `Id_menu`) VALUES
+(1, 0, 5, 4, NULL),
+(2, 0, 5, 7, NULL),
+(3, 0, 8, 7, NULL),
+(4, 2, 8, 7, NULL);
 
 -- --------------------------------------------------------
 
@@ -125,7 +127,6 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `Libelle` varchar(255) NOT NULL,
   `Prix` int(11) NOT NULL,
   `Id_Resto` int(11) NOT NULL,
-  `Id_Plat` int(11) NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -133,8 +134,8 @@ CREATE TABLE IF NOT EXISTS `menu` (
 -- Déchargement des données de la table `menu`
 --
 
-INSERT INTO `menu` (`Id`, `Libelle`, `Prix`, `Id_Resto`, `Id_Plat`) VALUES
-(1, 'Entrée - Plat', 15, 0, 0);
+INSERT INTO `menu` (`Id`, `Libelle`, `Prix`, `Id_Resto`) VALUES
+(1, 'Entrée - Plat', 15, 0);
 
 -- --------------------------------------------------------
 
@@ -228,6 +229,19 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
 INSERT INTO `restaurants` (`Id`, `Libelle`, `Id_Membre`) VALUES
 (1, 'Coeur', 2),
 (2, 'FD', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `restaurateur`
+--
+
+DROP TABLE IF EXISTS `restaurateur`;
+CREATE TABLE IF NOT EXISTS `restaurateur` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Nom` varchar(255) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
