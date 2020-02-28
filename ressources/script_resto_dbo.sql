@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le :  ven. 28 fév. 2020 à 09:40
+-- Généré le :  ven. 28 fév. 2020 à 11:52
 -- Version du serveur :  10.3.12-MariaDB
 -- Version de PHP :  7.4.1
 
@@ -154,17 +154,43 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Libelle` varchar(50) NOT NULL,
   `Id_Restaurateur` int(11) NOT NULL,
+  `adresse` text NOT NULL,
+  `longitude` float NOT NULL,
+  `latitude` float NOT NULL,
+  `Id_type` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  KEY `Id_Restaurateur` (`Id_Restaurateur`)
+  KEY `Id_Restaurateur` (`Id_Restaurateur`),
+  KEY `Id_type` (`Id_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `restaurants`
 --
 
-INSERT INTO `restaurants` (`Id`, `Libelle`, `Id_Restaurateur`) VALUES
-(1, 'Coeur', 3),
-(2, 'FD', 3);
+INSERT INTO `restaurants` (`Id`, `Libelle`, `Id_Restaurateur`, `adresse`, `longitude`, `latitude`, `Id_type`) VALUES
+(1, 'Coeur', 3, '', 0, 0, 1),
+(2, 'FD', 3, '', 0, 0, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `restaurant_types`
+--
+
+DROP TABLE IF EXISTS `restaurant_types`;
+CREATE TABLE IF NOT EXISTS `restaurant_types` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `restaurant_types`
+--
+
+INSERT INTO `restaurant_types` (`Id`, `type`) VALUES
+(1, 'Italien'),
+(2, 'Fast-food');
 
 -- --------------------------------------------------------
 
@@ -228,7 +254,8 @@ ALTER TABLE `plats`
 -- Contraintes pour la table `restaurants`
 --
 ALTER TABLE `restaurants`
-  ADD CONSTRAINT `restaurants_ibfk_1` FOREIGN KEY (`Id_Restaurateur`) REFERENCES `utilisateurs` (`Id`);
+  ADD CONSTRAINT `restaurants_ibfk_1` FOREIGN KEY (`Id_Restaurateur`) REFERENCES `utilisateurs` (`Id`),
+  ADD CONSTRAINT `restaurants_ibfk_2` FOREIGN KEY (`Id_type`) REFERENCES `restaurant_types` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
