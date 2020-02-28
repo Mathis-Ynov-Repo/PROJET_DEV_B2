@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le :  jeu. 27 fév. 2020 à 09:51
+-- Généré le :  ven. 28 fév. 2020 à 09:40
 -- Version du serveur :  10.3.12-MariaDB
 -- Version de PHP :  7.4.1
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `commandes` (
   `Id_Membre` int(11) NOT NULL,
   `DateAchat` datetime(3) NOT NULL,
   `DateReception` datetime(3) NOT NULL,
-  `Prix` int(11) NOT NULL,
+  `Prix` float NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `Id_Membre` (`Id_Membre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `commandes` (
 DROP TABLE IF EXISTS `commande_plats`;
 CREATE TABLE IF NOT EXISTS `commande_plats` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Prix` int(11) NOT NULL,
+  `Prix` float NOT NULL,
   `Id_Commande` int(11) DEFAULT NULL,
   `Id_Plat` int(11) DEFAULT NULL,
   `Id_menu` int(11) DEFAULT NULL,
@@ -62,55 +62,6 @@ CREATE TABLE IF NOT EXISTS `commande_plats` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `membres`
---
-
-DROP TABLE IF EXISTS `membres`;
-CREATE TABLE IF NOT EXISTS `membres` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Nom` varchar(50) NOT NULL,
-  `mail` varchar(255) NOT NULL,
-  `mot_de_passe_hash` varchar(255) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `membres`
---
-
-INSERT INTO `membres` (`Id`, `Nom`, `mail`, `mot_de_passe_hash`) VALUES
-(1, 'John', '', ''),
-(2, 'Carl', '', ''),
-(3, 'Antho', '', '');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `membres_histo`
---
-
-DROP TABLE IF EXISTS `membres_histo`;
-CREATE TABLE IF NOT EXISTS `membres_histo` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_Membre` int(11) NOT NULL,
-  `DateOperation` datetime(3) NOT NULL,
-  `Montant` double NOT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `ID_Membre` (`ID_Membre`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `membres_histo`
---
-
-INSERT INTO `membres_histo` (`Id`, `ID_Membre`, `DateOperation`, `Montant`) VALUES
-(1, 3, '3000-12-02 00:00:00.000', 20),
-(2, 1, '2323-10-04 00:00:00.000', 60),
-(3, 3, '2000-11-01 00:00:00.000', 80);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `menu`
 --
 
@@ -118,10 +69,8 @@ DROP TABLE IF EXISTS `menu`;
 CREATE TABLE IF NOT EXISTS `menu` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Libelle` varchar(255) NOT NULL,
-  `Prix` int(11) NOT NULL,
-  `Id_Resto` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `Id_Resto` (`Id_Resto`)
+  `Prix` float NOT NULL,
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -152,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `plats` (
   `Libelle` varchar(50) NOT NULL,
   `Id_Restaurant` int(11) NOT NULL,
   `Id_PlatType` int(11) NOT NULL,
-  `Prix` int(11) NOT NULL,
+  `Prix` float NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `Id_PlatType` (`Id_PlatType`),
   KEY `Id_Restaurant` (`Id_Restaurant`)
@@ -214,31 +163,34 @@ CREATE TABLE IF NOT EXISTS `restaurants` (
 --
 
 INSERT INTO `restaurants` (`Id`, `Libelle`, `Id_Restaurateur`) VALUES
-(1, 'Coeur', 2),
-(2, 'FD', 1);
+(1, 'Coeur', 3),
+(2, 'FD', 3);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `restaurateur`
+-- Structure de la table `utilisateurs`
 --
 
-DROP TABLE IF EXISTS `restaurateur`;
-CREATE TABLE IF NOT EXISTS `restaurateur` (
+DROP TABLE IF EXISTS `utilisateurs`;
+CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Nom` varchar(255) NOT NULL,
   `mail` varchar(255) NOT NULL,
-  `mot_de_passe_hash` varchar(255) NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `prenom` varchar(255) NOT NULL,
+  `roles` longtext NOT NULL,
+  `mdp_hash` varchar(255) NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Déchargement des données de la table `restaurateur`
+-- Déchargement des données de la table `utilisateurs`
 --
 
-INSERT INTO `restaurateur` (`Id`, `Nom`, `mail`, `mot_de_passe_hash`) VALUES
-(1, 'Thim', 'h@h.h', 'hashed'),
-(2, 'Leo', 'l@l.l', 'lashed');
+INSERT INTO `utilisateurs` (`Id`, `mail`, `nom`, `prenom`, `roles`, `mdp_hash`) VALUES
+(1, 'h@h.h', 'user1', 'user1', '[\"ROLE_MEMBRE\"]', 'mdpd'),
+(2, 'admin@admin.admin', 'admin', 'admin', '[\"ROLE_ADMIN\"]', 'mdpadmin'),
+(3, 'marco@marco.marco', 'marco', 'marco', '[\"ROLE_RESTAURATEUR\"]', 'mdpresto');
 
 --
 -- Contraintes pour les tables déchargées
@@ -248,7 +200,7 @@ INSERT INTO `restaurateur` (`Id`, `Nom`, `mail`, `mot_de_passe_hash`) VALUES
 -- Contraintes pour la table `commandes`
 --
 ALTER TABLE `commandes`
-  ADD CONSTRAINT `commandes_ibfk_1` FOREIGN KEY (`Id_Membre`) REFERENCES `membres` (`Id`);
+  ADD CONSTRAINT `commandes_ibfk_1` FOREIGN KEY (`Id_Membre`) REFERENCES `utilisateurs` (`Id`);
 
 --
 -- Contraintes pour la table `commande_plats`
@@ -257,18 +209,6 @@ ALTER TABLE `commande_plats`
   ADD CONSTRAINT `commande_plats_ibfk_1` FOREIGN KEY (`Id_menu`) REFERENCES `menu` (`Id`),
   ADD CONSTRAINT `commande_plats_ibfk_2` FOREIGN KEY (`Id_Plat`) REFERENCES `plats` (`Id`),
   ADD CONSTRAINT `commande_plats_ibfk_3` FOREIGN KEY (`Id_Commande`) REFERENCES `commandes` (`Id`);
-
---
--- Contraintes pour la table `membres_histo`
---
-ALTER TABLE `membres_histo`
-  ADD CONSTRAINT `membres_histo_ibfk_1` FOREIGN KEY (`ID_Membre`) REFERENCES `membres` (`Id`);
-
---
--- Contraintes pour la table `menu`
---
-ALTER TABLE `menu`
-  ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`Id_Resto`) REFERENCES `restaurants` (`Id`);
 
 --
 -- Contraintes pour la table `menu_details`
@@ -288,7 +228,7 @@ ALTER TABLE `plats`
 -- Contraintes pour la table `restaurants`
 --
 ALTER TABLE `restaurants`
-  ADD CONSTRAINT `restaurants_ibfk_1` FOREIGN KEY (`Id_Restaurateur`) REFERENCES `restaurateur` (`Id`);
+  ADD CONSTRAINT `restaurants_ibfk_1` FOREIGN KEY (`Id_Restaurateur`) REFERENCES `utilisateurs` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
