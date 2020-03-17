@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,17 @@ class Commandes
      * @ORM\Column(type="float")
      */
     private $prix;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommandePlats", mappedBy="commande")
+     */
+    private $commandePlats;
+
+
+    public function __construct()
+    {
+        $this->commandePlats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -88,4 +101,36 @@ class Commandes
 
         return $this;
     }
+
+    /**
+     * @return Collection|CommandePlats[]
+     */
+    public function getCommandePlats(): Collection
+    {
+        return $this->commandePlats;
+    }
+
+    public function addCommandePlat(CommandePlats $commandePlat): self
+    {
+        if (!$this->commandePlats->contains($commandePlat)) {
+            $this->commandePlats[] = $commandePlat;
+            $commandePlat->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandePlat(CommandePlats $commandePlat): self
+    {
+        if ($this->commandePlats->contains($commandePlat)) {
+            $this->commandePlats->removeElement($commandePlat);
+            // set the owning side to null (unless already changed)
+            if ($commandePlat->getCommande() === $this) {
+                $commandePlat->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

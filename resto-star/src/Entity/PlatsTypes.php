@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +23,16 @@ class PlatsTypes
      */
     private $libelle;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Plats", mappedBy="platType")
+     */
+    private $plats;
+
+    public function __construct()
+    {
+        $this->plats = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -34,6 +46,37 @@ class PlatsTypes
     public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Plats[]
+     */
+    public function getPlats(): Collection
+    {
+        return $this->plats;
+    }
+
+    public function addPlat(Plats $plat): self
+    {
+        if (!$this->plats->contains($plat)) {
+            $this->plats[] = $plat;
+            $plat->setPlatType($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlat(Plats $plat): self
+    {
+        if ($this->plats->contains($plat)) {
+            $this->plats->removeElement($plat);
+            // set the owning side to null (unless already changed)
+            if ($plat->getPlatType() === $this) {
+                $plat->setPlatType(null);
+            }
+        }
 
         return $this;
     }

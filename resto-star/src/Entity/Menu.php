@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +27,22 @@ class Menu
      * @ORM\Column(type="float")
      */
     private $prix;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommandePlats", mappedBy="menu")
+     */
+    private $commandePlats;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MenuDetails", mappedBy="menu")
+     */
+    private $menuDetails;
+
+    public function __construct()
+    {
+        $this->commandePlats = new ArrayCollection();
+        $this->menuDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,6 +69,68 @@ class Menu
     public function setPrix(float $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommandePlats[]
+     */
+    public function getCommandePlats(): Collection
+    {
+        return $this->commandePlats;
+    }
+
+    public function addCommandePlat(CommandePlats $commandePlat): self
+    {
+        if (!$this->commandePlats->contains($commandePlat)) {
+            $this->commandePlats[] = $commandePlat;
+            $commandePlat->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandePlat(CommandePlats $commandePlat): self
+    {
+        if ($this->commandePlats->contains($commandePlat)) {
+            $this->commandePlats->removeElement($commandePlat);
+            // set the owning side to null (unless already changed)
+            if ($commandePlat->getMenu() === $this) {
+                $commandePlat->setMenu(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MenuDetails[]
+     */
+    public function getMenuDetails(): Collection
+    {
+        return $this->menuDetails;
+    }
+
+    public function addMenuDetail(MenuDetails $menuDetail): self
+    {
+        if (!$this->menuDetails->contains($menuDetail)) {
+            $this->menuDetails[] = $menuDetail;
+            $menuDetail->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenuDetail(MenuDetails $menuDetail): self
+    {
+        if ($this->menuDetails->contains($menuDetail)) {
+            $this->menuDetails->removeElement($menuDetail);
+            // set the owning side to null (unless already changed)
+            if ($menuDetail->getMenu() === $this) {
+                $menuDetail->setMenu(null);
+            }
+        }
 
         return $this;
     }
