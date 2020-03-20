@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,22 +16,26 @@ class Plats
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("plats:details")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("plats:details")
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("plats:details")
      */
     private $prix;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Restaurants", inversedBy="plats")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("plats:details")
      */
     private $restaurant;
 
@@ -48,6 +53,7 @@ class Plats
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlatsTypes", inversedBy="plats")
+     * @Groups("plats:details")
      */
     private $platType;
 
