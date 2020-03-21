@@ -16,28 +16,31 @@ class Restaurants
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"plats:details", "restaurants:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("plats:details")
+     * @Groups({"plats:details", "restaurants:details"})
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups("plats:details")
+     * @Groups({"plats:details", "restaurants:details"})
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"restaurants:details"})
      */
     private $longitude;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"restaurants:details"})
      */
     private $latitude;
 
@@ -48,6 +51,7 @@ class Restaurants
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\RestaurantTypes", inversedBy="restaurants")
+     * @Groups({"restaurants:details"})
      */
     private $type;
 
