@@ -10,8 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RestaurantsRepository")
  */
-class Restaurants
-{
+class Restaurants extends AbstractEntity {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

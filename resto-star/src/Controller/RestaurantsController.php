@@ -6,12 +6,11 @@ use App\Entity\Restaurants;
 use App\Form\RestaurantType;
 use App\Repository\RestaurantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RestaurantsController extends AbstractController
+class RestaurantsController extends AbstractBaseController
 {
     private $em;
 
@@ -44,7 +43,7 @@ class RestaurantsController extends AbstractController
         ['groups' => 'restaurants:details'] // Contexte
         );
     }
-        /**
+    /**
      * @Route("/restaurants", name="restaurants_ajout", methods={"POST"})
      */
     public function create(Request $request) {
@@ -65,10 +64,21 @@ class RestaurantsController extends AbstractController
             ["groups" => "restaurants:details"]
         );
         }
-        $errors = 'xx';//$this->getFormErrors($form); 
+        $errors = $this->getFormErrors($form); 
         return $this->json(
         $errors,
         Response::HTTP_BAD_REQUEST
         );
+    }
+
+    /**
+     * @Route("/restaurants/{id}", name="restaurants_suppression", methods={"DELETE"})
+     */
+    public function delete(Restaurants $restaurant)
+    {
+        $this->em->remove($restaurant);
+        $this->em->flush();
+
+        return $this->json('ok');
     }
 }

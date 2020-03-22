@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PlatsRepository")
  */
-class Plats
+class Plats extends AbstractEntity
 {
     /**
      * @ORM\Id()

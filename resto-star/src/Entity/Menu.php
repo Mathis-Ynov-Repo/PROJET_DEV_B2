@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MenuRepository")
  */
-class Menu
+class Menu extends AbstractEntity
 {
     /**
      * @ORM\Id()
