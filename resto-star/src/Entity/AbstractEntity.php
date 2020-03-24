@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 abstract class AbstractEntity
 {
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"restaurants:details"})
      */
     protected $created;
 

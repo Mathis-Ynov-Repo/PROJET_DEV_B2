@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Restaurants;
+use App\Entity\RestaurantTypes;
 use App\Form\RestaurantType;
 use App\Repository\RestaurantsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,6 +73,22 @@ class RestaurantsController extends AbstractBaseController
     }
 
     /**
+     * @Route("/restaurants/{id}", name="restaurants_patch", methods={"PATCH"})
+     */
+    public function patch(Restaurants $restaurant, Request $request)
+    {
+        return $this->update($request, $restaurant, false);
+    }
+
+    /**
+     * @Route("/restaurants/{id}", name="restaurants_put", methods={"PUT"})
+     */
+    public function put(Restaurants $restaurant, Request $request)
+    {
+        return $this->update($request, $restaurant);
+    }
+
+    /**
      * @Route("/restaurants/{id}", name="restaurants_suppression", methods={"DELETE"})
      */
     public function delete(Restaurants $restaurant)
@@ -81,4 +98,29 @@ class RestaurantsController extends AbstractBaseController
 
         return $this->json('ok');
     }
+    private function update(
+        Request $request,
+        Restaurants $restaurant,
+        bool $clearMissing = true
+      ) {
+        $data = json_decode($request->getContent(), true);
+        $form = $this->createForm(RestaurantType::class, $restaurant);
+    
+        $form->submit($data, $clearMissing);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+          $this->em->flush();
+    
+          return $this->json($restaurant,
+          Response::HTTP_OK,
+          [],
+          ["groups" => "restaurants:details"]);
+        }
+    
+        $errors = $this->getFormErrors($form);
+        return $this->json(
+          $errors,
+          Response::HTTP_BAD_REQUEST
+        );
+      }
 }

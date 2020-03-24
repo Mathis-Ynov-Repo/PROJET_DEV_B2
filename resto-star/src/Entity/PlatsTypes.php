@@ -16,6 +16,7 @@ class PlatsTypes
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("plats:details")
      */
     private $id;
 
