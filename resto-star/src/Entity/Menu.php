@@ -38,6 +38,12 @@ class Menu extends AbstractEntity
      */
     private $menuDetails;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Restaurants", inversedBy="menus")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $restaurant;
+
     public function __construct()
     {
         $this->commandePlats = new ArrayCollection();
@@ -131,6 +137,18 @@ class Menu extends AbstractEntity
                 $menuDetail->setMenu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRestaurant(): ?Restaurants
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurants $restaurant): self
+    {
+        $this->restaurant = $restaurant;
 
         return $this;
     }
