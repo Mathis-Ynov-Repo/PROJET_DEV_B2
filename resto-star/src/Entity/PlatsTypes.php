@@ -16,13 +16,13 @@ class PlatsTypes
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("plats:details")
+     * @Groups({"plats:details", "platsTypes:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("plats:details")
+     * @Groups({"plats:details", "platsTypes:details"})
      */
     private $libelle;
 

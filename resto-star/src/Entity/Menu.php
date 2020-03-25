@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MenuRepository")
@@ -15,16 +16,19 @@ class Menu extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("menus:details")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("menus:details")
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("menus:details")
      */
     private $prix;
 
@@ -41,6 +45,7 @@ class Menu extends AbstractEntity
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Restaurants", inversedBy="menus")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("menus:details")
      */
     private $restaurant;
 

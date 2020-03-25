@@ -15,13 +15,13 @@ class Restaurants extends AbstractEntity {
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"plats:details", "restaurants:details"})
+     * @Groups({"plats:details", "restaurants:details", "menus:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"plats:details", "restaurants:details"})
+     * @Groups({"plats:details", "restaurants:details", "menus:details"})
      */
     private $libelle;
 

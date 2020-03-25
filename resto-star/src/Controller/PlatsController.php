@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\Plats;
 use App\Form\PlatsType;
 use App\Repository\PlatsRepository;
+use App\Repository\PlatsTypesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class PlatsController extends AbstractBaseController
 {
@@ -19,7 +19,7 @@ class PlatsController extends AbstractBaseController
         $this->em = $em;
     }
     /**
-     * @Route("plats", name="liste_plats", methods={"GET"})
+     * @Route("/plats", name="liste_plats", methods={"GET"})
      */
     public function list(PlatsRepository $platsRepository) {
         $plats = $platsRepository->findAll();
@@ -99,6 +99,20 @@ class PlatsController extends AbstractBaseController
         $this->em->flush();
 
         return $this->json('ok');
+    }
+
+    /**
+     * @Route("/plats-types", name="liste_plats_types", methods={"GET"})
+     */
+    public function listTypes(PlatsTypesRepository $platsTypesRepository) {
+        $platsType = $platsTypesRepository->findAll();
+
+        return $this->json(
+            $platsType,
+            Response::HTTP_OK,
+            [],
+            ["groups" => "platsTypes:details"]
+        );
     }
 
     private function update(

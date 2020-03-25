@@ -6,6 +6,7 @@ use App\Entity\Restaurants;
 use App\Entity\RestaurantTypes;
 use App\Form\RestaurantType;
 use App\Repository\RestaurantsRepository;
+use App\Repository\RestaurantTypesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,6 +98,20 @@ class RestaurantsController extends AbstractBaseController
         $this->em->flush();
 
         return $this->json('ok');
+    }
+
+    /**
+     * @Route("/restaurants-types", name="liste_restaurants_types", methods={"GET"})
+     */
+    public function listTypes(RestaurantTypesRepository $restaurantsTypesRepository) {
+        $restaurantsType = $restaurantsTypesRepository->findAll();
+
+        return $this->json(
+            $restaurantsType,
+            Response::HTTP_OK,
+            [],
+            ["groups" => "restaurantsTypes:details"]
+        );
     }
     private function update(
         Request $request,
