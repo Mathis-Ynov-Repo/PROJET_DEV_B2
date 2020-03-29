@@ -59,6 +59,18 @@ class Restaurants extends AbstractEntity {
      */
     private $menus;
 
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"restaurants:details"})
+     */
+    private $rating;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"restaurants:details"})
+     */
+    private $description;
+
 
 
     public function __construct()
@@ -190,6 +202,30 @@ class Restaurants extends AbstractEntity {
                 $menu->setRestaurant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
