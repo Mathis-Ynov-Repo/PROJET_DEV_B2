@@ -16,19 +16,19 @@ class Menu extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("menus:details")
+     * @Groups({"menus:details", "panier-details:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("menus:details")
+     * @Groups({"menus:details","panier-details:details"})
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups("menus:details")
+     * @Groups({"menus:details","panier-details:details"})
      */
     private $prix;
 
@@ -49,10 +49,17 @@ class Menu extends AbstractEntity
      */
     private $restaurant;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PanierDetails", mappedBy="menu")
+     */
+    private $panierDetails;
+
     public function __construct()
     {
         $this->commandePlats = new ArrayCollection();
         $this->menuDetails = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
+        $this->panierDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -154,6 +161,38 @@ class Menu extends AbstractEntity
     public function setRestaurant(?Restaurants $restaurant): self
     {
         $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|PanierDetails[]
+     */
+    public function getPanierDetails(): Collection
+    {
+        return $this->panierDetails;
+    }
+
+    public function addPanierDetail(PanierDetails $panierDetail): self
+    {
+        if (!$this->panierDetails->contains($panierDetail)) {
+            $this->panierDetails[] = $panierDetail;
+            $panierDetail->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierDetail(PanierDetails $panierDetail): self
+    {
+        if ($this->panierDetails->contains($panierDetail)) {
+            $this->panierDetails->removeElement($panierDetail);
+            // set the owning side to null (unless already changed)
+            if ($panierDetail->getMenu() === $this) {
+                $panierDetail->setMenu(null);
+            }
+        }
 
         return $this;
     }

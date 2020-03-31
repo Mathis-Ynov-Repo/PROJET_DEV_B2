@@ -16,26 +16,26 @@ class Plats extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("plats:details")
+     * @Groups({"plats:details", "panier-details:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("plats:details")
+     * @Groups({"plats:details", "panier-details:details"})
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups("plats:details")
+     * @Groups({"plats:details","panier-details:details"})
      */
     private $prix;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Restaurants", inversedBy="plats")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("plats:details")
+     * @Groups({"plats:details","panier-details:details"})
      */
     private $restaurant;
 
@@ -57,10 +57,17 @@ class Plats extends AbstractEntity
      */
     private $platType;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PanierDetails", mappedBy="plat")
+     */
+    private $panierDetails;
+
     public function __construct()
     {
         $this->commandePlats = new ArrayCollection();
         $this->menuDetails = new ArrayCollection();
+        $this->paniers = new ArrayCollection();
+        $this->panierDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +182,37 @@ class Plats extends AbstractEntity
     public function setPlatType(?PlatsTypes $platType): self
     {
         $this->platType = $platType;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PanierDetails[]
+     */
+    public function getPanierDetails(): Collection
+    {
+        return $this->panierDetails;
+    }
+
+    public function addPanierDetail(PanierDetails $panierDetail): self
+    {
+        if (!$this->panierDetails->contains($panierDetail)) {
+            $this->panierDetails[] = $panierDetail;
+            $panierDetail->setPlat($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierDetail(PanierDetails $panierDetail): self
+    {
+        if ($this->panierDetails->contains($panierDetail)) {
+            $this->panierDetails->removeElement($panierDetail);
+            // set the owning side to null (unless already changed)
+            if ($panierDetail->getPlat() === $this) {
+                $panierDetail->setPlat(null);
+            }
+        }
 
         return $this;
     }
