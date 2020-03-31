@@ -13,10 +13,10 @@ class CommandeType extends AbstractType
     {
         $builder
             ->add('frais')
-            ->add('dateAchat')
-            ->add('dateReception')
             ->add('prix')
             ->add('statut')
+            ->add('dateAchat')
+            ->add('dateReception')
         ;
     }
 

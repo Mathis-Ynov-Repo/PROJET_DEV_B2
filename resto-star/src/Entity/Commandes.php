@@ -5,11 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommandesRepository")
  */
-class Commandes
+class Commandes extends AbstractEntity
 {
     /**
      * @ORM\Id()
@@ -22,16 +23,6 @@ class Commandes
      * @ORM\Column(type="float")
      */
     private $frais;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateAchat;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateReception;
 
     /**
      * @ORM\Column(type="float")
@@ -47,6 +38,16 @@ class Commandes
      * @ORM\Column(type="string", length=255)
      */
     private $statut;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateAchat;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateReception;
 
 
     public function __construct()
@@ -67,30 +68,6 @@ class Commandes
     public function setFrais(float $frais): self
     {
         $this->frais = $frais;
-
-        return $this;
-    }
-
-    public function getDateAchat(): ?\DateTimeInterface
-    {
-        return $this->dateAchat;
-    }
-
-    public function setDateAchat(\DateTimeInterface $dateAchat): self
-    {
-        $this->dateAchat = $dateAchat;
-
-        return $this;
-    }
-
-    public function getDateReception(): ?\DateTimeInterface
-    {
-        return $this->dateReception;
-    }
-
-    public function setDateReception(\DateTimeInterface $dateReception): self
-    {
-        $this->dateReception = $dateReception;
 
         return $this;
     }
@@ -146,6 +123,30 @@ class Commandes
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getDateAchat(): ?\DateTimeInterface
+    {
+        return $this->dateAchat;
+    }
+
+    public function setDateAchat(?\DateTimeInterface $dateAchat): self
+    {
+        $this->dateAchat = $dateAchat;
+
+        return $this;
+    }
+
+    public function getDateReception(): ?\DateTimeInterface
+    {
+        return $this->dateReception;
+    }
+
+    public function setDateReception(?\DateTimeInterface $dateReception): self
+    {
+        $this->dateReception = $dateReception;
 
         return $this;
     }
