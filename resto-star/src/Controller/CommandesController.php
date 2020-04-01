@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\CommandePlats;
 use App\Entity\Commandes;
+use App\Form\CommandePlatsType;
 use App\Form\CommandeType;
+use App\Repository\CommandePlatsRepository;
 use App\Repository\CommandesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +31,7 @@ class CommandesController extends AbstractBaseController
             $plats,
             Response::HTTP_OK,
             [],
-            //['groups' => 'commandes:details']
+            ['groups' => 'commandes:details']
         );
     }
     /**
@@ -40,7 +43,7 @@ class CommandesController extends AbstractBaseController
         ['commande' => $commande], // données à sérialiser
         Response::HTTP_OK, // Code de réponse HTTP
         [], // En-têtes
-        //['groups' => 'commandes:details'] // Contexte
+        ['groups' => 'commandes:details'] // Contexte
         );
     }
 
@@ -64,7 +67,7 @@ class CommandesController extends AbstractBaseController
             $commande,
             Response::HTTP_CREATED,
             [],
-            //["groups" => "commandes:details"]
+            ["groups" => "commandes:details"]
         );
         }
         $errors = $this->getFormErrors($form); 
@@ -101,6 +104,106 @@ class CommandesController extends AbstractBaseController
         return $this->json('ok');
     }
 
+
+    /**
+     * @Route("/commande-details", name="liste_commande_details", methods={"GET"})
+     */
+    public function listDetails(CommandePlatsRepository $commandePlatsRepository) {
+        $commandePlats = $commandePlatsRepository->findAll();
+
+        return $this->json(
+            $commandePlats,
+            Response::HTTP_OK,
+            [],
+            ['groups' => 'commande-plats:details']
+        );
+    }
+
+    /**
+     * @Route("/commande-details/{id}", name="commande_details", methods={"GET"})
+     */
+    public function detailCommandePlats(CommandePlats $commandePlats)
+    {
+        return $this->json(
+        ['commandeDetail' => $commandePlats], // données à sérialiser
+        Response::HTTP_OK, // Code de réponse HTTP
+        [], // En-têtes
+        ['groups' => 'commande-plats:details'] // Contexte
+        );
+    }
+
+    /**
+     * @Route("/commande-details", name="commande_details_ajout", methods={"POST"})
+     */
+    public function createDetails(
+        Request $request
+    ) {
+        $commandes = [];
+        $errors = null;
+        $data = json_decode($request->getContent(), true);
+        foreach ( $data as $line) {
+            $commandePlat = new CommandePlats();
+            $form = $this->createForm(CommandePlatsType::class, $commandePlat);
+
+            $form->submit($line);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+            array_push($commandes, $commandePlat);
+            // $this->em->persist($commandePlat);
+            // $this->em->flush();
+
+
+            } else {
+                $errors = $this->getFormErrors($form); 
+                return $this->json(
+                $errors,
+                Response::HTTP_BAD_REQUEST
+                );
+            }
+        }
+        if (is_null($errors)) {
+            foreach( $commandes as $commandePlat) {
+                $this->em->persist($commandePlat);
+                $this->em->flush();
+            }
+            return $this->json(
+                $commandes,
+                Response::HTTP_CREATED,
+                [],
+                ["groups" => "commande-plats:details"]
+            );
+        }
+
+    }
+
+      /**
+     * @Route("/commande-details/{id}", name="commande_details_patch", methods={"PATCH"})
+     */
+    public function patchDetail(CommandePlats $commandeDetail, Request $request)
+    {
+        return $this->updateDetail($request, $commandeDetail, false);
+    }
+
+    /**
+     * @Route("/commande-details/{id}", name="commande_details_put", methods={"PUT"})
+     */
+    public function putDetail(CommandePlats $commandeDetail, Request $request)
+    {
+        return $this->updateDetail($request, $commandeDetail);
+    }
+
+    /**
+     * @Route("/commande-details/{id}", name="commande_details_suppression", methods={"DELETE"})
+     */
+    public function deleteDetail(CommandePlats $commandeDetail)
+    {
+        $this->em->remove($commandeDetail);
+        $this->em->flush();
+
+        return $this->json('ok');
+    }
+
+
     private function update(
         Request $request,
         Commandes $commande,
@@ -118,6 +221,32 @@ class CommandesController extends AbstractBaseController
           Response::HTTP_OK,
           [],
           ["groups" => "commandes:details"]);
+        }
+    
+        $errors = $this->getFormErrors($form);
+        return $this->json(
+          $errors,
+          Response::HTTP_BAD_REQUEST
+        );
+    }
+
+    private function updateDetail(
+        Request $request,
+        CommandePlats $commandeDetail,
+        bool $clearMissing = true
+      ) {
+        $data = json_decode($request->getContent(), true);
+        $form = $this->createForm(CommandePlatsType::class, $commandeDetail);
+    
+        $form->submit($data, $clearMissing);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+          $this->em->flush();
+    
+          return $this->json($commandeDetail,
+          Response::HTTP_OK,
+          [],
+          ["groups" => "commande-plats:details"]);
         }
     
         $errors = $this->getFormErrors($form);

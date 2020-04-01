@@ -3,37 +3,43 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommandePlatsRepository")
  */
-class CommandePlats
+class CommandePlats extends AbstractEntity
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("commande-plats:details")
      */
     private $id;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("commande-plats:details")
      */
     private $prix;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Commandes", inversedBy="commandePlats")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("commande-plats:details")
      */
     private $commande;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plats", inversedBy="commandePlats")
+     * @Groups("commande-plats:details")
      */
     private $plat;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Menu", inversedBy="commandePlats")
+     * @Groups("commande-plats:details")
      */
     private $menu;
 

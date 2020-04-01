@@ -16,26 +16,26 @@ class Plats extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"plats:details", "panier-details:details"})
+     * @Groups({"plats:details", "panier-details:details", "commande-plats:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"plats:details", "panier-details:details"})
+     * @Groups({"plats:details", "panier-details:details", "commande-plats:details"})
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"plats:details","panier-details:details"})
+     * @Groups({"plats:details","panier-details:details", "commande-plats:details"})
      */
     private $prix;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Restaurants", inversedBy="plats")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"plats:details","panier-details:details"})
+     * @Groups({"plats:details","panier-details:details", "commande-plats:details"})
      */
     private $restaurant;
 

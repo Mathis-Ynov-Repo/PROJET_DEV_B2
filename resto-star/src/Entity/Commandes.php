@@ -16,36 +16,43 @@ class Commandes extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"commande-plats:details", "commandes:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("commandes:details")
      */
     private $frais;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"commande-plats:details", "commandes:details"})
      */
     private $prix;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CommandePlats", mappedBy="commande")
+     * 
      */
     private $commandePlats;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"commande-plats:details", "commandes:details"})
      */
     private $statut;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("commandes:details")
      */
     private $dateAchat;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("commandes:details")
      */
     private $dateReception;
 
