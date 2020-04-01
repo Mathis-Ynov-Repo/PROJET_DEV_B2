@@ -198,6 +198,26 @@ class PanierController extends AbstractBaseController
     }
 
     /**
+     * @Route("/paniers-details", name="paniers_details_patch", methods={"PATCH"})
+     */
+    public function patchDetailsWithPlat(PanierDetailsRepository $panierDetailsRepository, Request $request)
+    {
+        if ($request->query->has('plat') && $request->query->has('panier')) {
+            $id_plat = $request->query->get('plat');
+            $id_panier = $request->query->get('panier');
+
+            $panierDetail = $panierDetailsRepository->findOneBy(['plat' => $id_plat, 'panier' => $id_panier]);
+
+            return $this->updateDetails($request, $panierDetail, false);
+        } else {
+            return $this->json(
+                Response::HTTP_NOT_FOUND
+            );
+        }
+        
+    }
+
+    /**
      * @Route("/paniers-details/{id}", name="paniers_details_put", methods={"PUT"})
      */
     public function putDetails(PanierDetails $panierDetail, Request $request)

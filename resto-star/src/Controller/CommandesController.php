@@ -149,8 +149,7 @@ class CommandesController extends AbstractBaseController
 
             if ($form->isSubmitted() && $form->isValid()) {
             array_push($commandes, $commandePlat);
-            // $this->em->persist($commandePlat);
-            // $this->em->flush();
+            $this->em->persist($commandePlat);
 
 
             } else {
@@ -162,10 +161,7 @@ class CommandesController extends AbstractBaseController
             }
         }
         if (is_null($errors)) {
-            foreach( $commandes as $commandePlat) {
-                $this->em->persist($commandePlat);
                 $this->em->flush();
-            }
             return $this->json(
                 $commandes,
                 Response::HTTP_CREATED,
