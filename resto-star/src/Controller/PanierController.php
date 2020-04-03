@@ -238,6 +238,28 @@ class PanierController extends AbstractBaseController
     }
 
     /**
+     * @Route("/paniers-details-delete", name="paniers_details_suppression", methods={"DELETE"})
+     */
+    public function deleteAllDetails(Request $request, PanierDetailsRepository $panierDetailsRepository)
+    {
+        if($request->query->has('panier')) {
+            $id_panier = $request->query->get('panier');
+
+            $panierDetails = $panierDetailsRepository->findBy(['panier' => $id_panier]);
+
+            foreach($panierDetails as $panierDetail) {
+                $this->em->remove($panierDetail);
+                $this->em->flush();
+            }
+            return $this->json('ok');
+        }
+        return $this->json(
+            Response::HTTP_BAD_REQUEST
+        );
+
+    }
+
+    /**
      * @Route("/paniers-details", name="paniers_details_suppression_platID", methods={"DELETE"})
      */
     public function deleteDetailsWithPlat(Request $request, PanierDetailsRepository $panierDetailsRepository)
