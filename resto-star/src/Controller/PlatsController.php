@@ -31,6 +31,22 @@ class PlatsController extends AbstractBaseController
             ['groups' => 'plats:details']
         );
     }
+
+    /**
+     * @Route("/restaurants/{restaurant_id}/plats", name="restaurant_liste_plats", methods={"GET"})
+     */
+    public function listFromRestaurant(PlatsRepository $platsRepository, $restaurant_id) {
+        $plats = $platsRepository->findBy(['restaurant'=> $restaurant_id]);
+
+        return $this->json(
+            $plats,
+            Response::HTTP_OK,
+            [],
+            ['groups' => 'plats:details']
+        );
+    }
+
+
     /**
      * @Route("/plats/{id}", name="plats_details", methods={"GET"})
      */

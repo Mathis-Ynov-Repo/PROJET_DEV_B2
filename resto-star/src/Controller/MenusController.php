@@ -30,6 +30,21 @@ class MenusController extends AbstractBaseController
             ['groups' => 'menus:details']
         );
     }
+
+        /**
+     * @Route("/{restaurant_id}/menus", name="liste_menus", methods={"GET"})
+     */
+    public function listFromRestaurant(MenuRepository $menusRepository, Request $request, $restaurant_id) {
+        $plats = $menusRepository->findBy(['restaurant'=> $restaurant_id]);
+
+        return $this->json(
+            $plats,
+            Response::HTTP_OK,
+            [],
+            ['groups' => 'menus:details']
+        );
+    }
+
     /**
      * @Route("/menus/{id}", name="menus_details", methods={"GET"})
      */
