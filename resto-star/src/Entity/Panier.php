@@ -31,6 +31,7 @@ class Panier extends AbstractEntity
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"panier:details", "panier-details:details"})
      */
     private $user;
 
