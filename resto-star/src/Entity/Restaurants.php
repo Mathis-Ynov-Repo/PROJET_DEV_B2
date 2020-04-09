@@ -9,7 +9,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={"groups"={"restaurants:details"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\RestaurantsRepository")
  */
 class Restaurants extends AbstractEntity {

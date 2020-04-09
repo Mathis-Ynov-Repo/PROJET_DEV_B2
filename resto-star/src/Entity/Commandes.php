@@ -9,7 +9,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={"groups"={"commandes:details"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CommandesRepository")
  */
 class Commandes extends AbstractEntity

@@ -4,8 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
+ * @ApiResource(
+ *      normalizationContext={"groups"={"panier-details:details"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PanierDetailsRepository")
  */
 class PanierDetails extends AbstractEntity

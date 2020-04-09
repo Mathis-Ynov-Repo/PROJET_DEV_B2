@@ -7,9 +7,15 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={"groups"={"plats:details"}},
+ *      denormalizationContext= {"groups"={"plats:details"}}
+ * )
+ * @ApiFilter(NumericFilter::class, properties={"restaurant.id": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\PlatsRepository")
  */
 class Plats extends AbstractEntity

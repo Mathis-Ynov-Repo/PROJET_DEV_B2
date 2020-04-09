@@ -6,8 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
+ * @ApiResource(
+ *      normalizationContext={"groups"={"restaurantsTypes:details"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\RestaurantTypesRepository")
  */
 class RestaurantTypes

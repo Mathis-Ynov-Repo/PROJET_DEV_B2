@@ -7,7 +7,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      normalizationContext={"groups"={"commande-plats:details"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CommandePlatsRepository")
  */
 class CommandePlats extends AbstractEntity
