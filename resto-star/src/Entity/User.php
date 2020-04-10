@@ -42,6 +42,11 @@ class User implements UserInterface
      */
     private $commandes;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastConnection;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -152,6 +157,18 @@ class User implements UserInterface
                 $commande->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLastConnection(): ?\DateTimeInterface
+    {
+        return $this->lastConnection;
+    }
+
+    public function setLastConnection(?\DateTimeInterface $lastConnection): self
+    {
+        $this->lastConnection = $lastConnection;
 
         return $this;
     }
