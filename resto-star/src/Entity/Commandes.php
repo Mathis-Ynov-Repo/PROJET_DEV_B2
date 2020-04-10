@@ -60,6 +60,11 @@ class Commandes extends AbstractEntity
      */
     private $dateReception;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commandes")
+     */
+    private $user;
+
 
     public function __construct()
     {
@@ -158,6 +163,18 @@ class Commandes extends AbstractEntity
     public function setDateReception(?\DateTimeInterface $dateReception): self
     {
         $this->dateReception = $dateReception;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

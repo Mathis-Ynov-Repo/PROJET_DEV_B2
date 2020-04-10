@@ -75,6 +75,11 @@ class Restaurants extends AbstractEntity {
      */
     private $description;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     */
+    private $user;
+
 
 
     public function __construct()
@@ -230,6 +235,18 @@ class Restaurants extends AbstractEntity {
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

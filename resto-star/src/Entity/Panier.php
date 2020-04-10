@@ -33,13 +33,14 @@ class Panier extends AbstractEntity
      * @ORM\Column(type="integer")
      * @Groups({"panier:details", "panier-details:details"})
      */
-    private $user;
+    private $prix;
+
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
      * @Groups({"panier:details", "panier-details:details"})
      */
-    private $prix;
+    private $user;
 
     public function __construct()
     {
@@ -82,18 +83,6 @@ class Panier extends AbstractEntity
         return $this;
     }
 
-    public function getUser(): ?int
-    {
-        return $this->user;
-    }
-
-    public function setUser(int $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getPrix(): ?int
     {
         return $this->prix;
@@ -102,6 +91,18 @@ class Panier extends AbstractEntity
     public function setPrix(int $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
