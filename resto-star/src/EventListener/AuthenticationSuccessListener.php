@@ -32,9 +32,13 @@ class AuthenticationSuccessListener
         $user->setLastConnection(new DateTime('now', new DateTimeZone('Europe/Paris')));
         $this->em->flush();
 
-        $data['data'] = [
+        $data['user'] = [
+            'id' => $user->getId(),
+            'email' => $user->getUsername(),
+            'name' => $user->getName(),
+            'surname' => $user->getSurname(),
             'roles' => $user->getRoles(),
-            'lastConnection' => $user->getLastConnection()
+            'lastConnection' => $user->getLastConnection(),
         ];
 
         $event->setData($data);

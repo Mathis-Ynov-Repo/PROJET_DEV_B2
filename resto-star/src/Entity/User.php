@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -18,16 +20,22 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("user_read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *      message = "This email is not a valid email."
+     * )
+     * @Groups("user_read")
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("user_read")
      */
     private $roles = [];
 
@@ -44,8 +52,21 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups("user_read")
      */
     private $lastConnection;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups("user_read")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups("user_read")
+     */
+    private $surname;
 
     public function __construct()
     {
@@ -169,6 +190,30 @@ class User implements UserInterface
     public function setLastConnection(?\DateTimeInterface $lastConnection): self
     {
         $this->lastConnection = $lastConnection;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): self
+    {
+        $this->surname = $surname;
 
         return $this;
     }
