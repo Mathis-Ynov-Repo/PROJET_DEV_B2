@@ -7,14 +7,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
 
 /**
  * @ApiResource(
  *      normalizationContext={"groups"={"restaurants:details"}},
  * )
+ * @ApiFilter(NumericFilter::class, properties={"user.id": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\RestaurantsRepository")
  */
-class Restaurants extends AbstractEntity {
+class Restaurants extends AbstractEntity
+{
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -49,6 +53,7 @@ class Restaurants extends AbstractEntity {
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Plats", mappedBy="restaurant")
+     * @Groups({"restaurants:details"})
      */
     private $plats;
 
@@ -80,12 +85,18 @@ class Restaurants extends AbstractEntity {
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commandes", mappedBy="restaurant")
+     */
+    private $commandes;
+
 
 
     public function __construct()
     {
         $this->plats = new ArrayCollection();
         $this->menus = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -251,5 +262,34 @@ class Restaurants extends AbstractEntity {
         return $this;
     }
 
+    /**
+     * @return Collection|Commandes[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
 
+    public function addCommande(Commandes $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commandes $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getRestaurant() === $this) {
+                $commande->setRestaurant(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -28,6 +28,12 @@ services:
   App\EventSubscriber\EntityCreatedSubscriber:
     tags:
       - { name: doctrine.event_subscriber }
+  App\EventSubscriber\DateAchatSubscriber:
+    tags:
+      - { name: doctrine.event_subscriber }
+  App\EventSubscriber\DateReceptionSubscriber:
+    tags:
+      - { name: doctrine.event_subscriber }
   App\EventSubscriber\UserPasswordEncodingSubscriber:
     tags:
       - { name: doctrine.event_subscriber }

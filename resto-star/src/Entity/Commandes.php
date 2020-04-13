@@ -7,11 +7,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
  *      normalizationContext={"groups"={"commandes:details"}},
  * )
+ * @ApiFilter(Searchfilter::class, properties={"restaurant": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\CommandesRepository")
  */
 class Commandes extends AbstractEntity
@@ -38,6 +41,7 @@ class Commandes extends AbstractEntity
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CommandePlats", mappedBy="commande")
+     * @Groups("commandes:details")
      * 
      */
     private $commandePlats;
@@ -64,6 +68,12 @@ class Commandes extends AbstractEntity
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commandes")
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Restaurants", inversedBy="commandes")
+     * @Groups("commandes:details")
+     */
+    private $restaurant;
 
 
     public function __construct()
@@ -179,4 +189,15 @@ class Commandes extends AbstractEntity
         return $this;
     }
 
+    public function getRestaurant(): ?Restaurants
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurants $restaurant): self
+    {
+        $this->restaurant = $restaurant;
+
+        return $this;
+    }
 }

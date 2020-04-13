@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
+
 /**
  * @ApiResource(
  *      normalizationContext={"groups"={"platsTypes:details"}} 
@@ -19,13 +20,13 @@ class PlatsTypes
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"plats:details", "platsTypes:details"})
+     * @Groups({"plats:details", "platsTypes:details",  "restaurants:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"plats:details", "platsTypes:details"})
+     * @Groups({"plats:details", "platsTypes:details",  "restaurants:details"})
      */
     private $libelle;
 
