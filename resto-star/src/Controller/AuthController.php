@@ -12,14 +12,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AuthController extends AbstractBaseController
 {
-    public function register(Request $request, UserPasswordEncoderInterface $encoder)
+    public function register(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $data = json_decode($request->getContent(), true);
 
         $user = new User();
 
-        $form = $this->createForm(UserType::class, $user,  array('csrf_protection' => false));
+        $form = $this->createForm(UserType::class, $user);
 
         $form->submit($data);
 

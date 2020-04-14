@@ -11,6 +11,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * @ApiResource(
  *      normalizationContext={"groups"={"restaurantsTypes:details"}},
+ *      collectionOperations={
+ *         "get",
+ *         "post"={"security"="is_granted('ROLE_ADMIN')"},
+ *         "put",
+ *         "delete",
+ *      },
  * )
  * @ORM\Entity(repositoryClass="App\Repository\RestaurantTypesRepository")
  */

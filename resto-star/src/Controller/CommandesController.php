@@ -16,11 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CommandesController extends AbstractBaseController
 {
-    // private $em;
+    private $em;
 
-    // function __construct(EntityManagerInterface $em) {
-    //     $this->em = $em;
-    // }
+    function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
     // /**
     //  * @Route("/commandes", name="liste_commandes", methods={"GET"})
     //  */
@@ -132,45 +133,42 @@ class CommandesController extends AbstractBaseController
     //     );
     // }
 
-    // /**
-    //  * @Route("/commande-details", name="commande_details_ajout", methods={"POST"})
-    //  */
-    // public function createDetails(
-    //     Request $request
-    // ) {
-    //     $commandes = [];
-    //     $errors = null;
-    //     $data = json_decode($request->getContent(), true);
-    //     foreach ( $data as $line) {
-    //         $commandePlat = new CommandePlats();
-    //         $form = $this->createForm(CommandePlatsType::class, $commandePlat);
+    /**
+     * @Route("/commande-details", name="commande_details_ajout", methods={"POST"})
+     */
+    public function createDetails(
+        Request $request
+    ) {
+        $commandes = [];
+        $errors = null;
+        $data = json_decode($request->getContent(), true);
+        foreach ($data as $line) {
+            $commandePlat = new CommandePlats();
+            $form = $this->createForm(CommandePlatsType::class, $commandePlat,  array('csrf_protection' => false));
 
-    //         $form->submit($line);
+            $form->submit($line);
 
-    //         if ($form->isSubmitted() && $form->isValid()) {
-    //         array_push($commandes, $commandePlat);
-    //         $this->em->persist($commandePlat);
-
-
-    //         } else {
-    //             $errors = $this->getFormErrors($form); 
-    //             return $this->json(
-    //             $errors,
-    //             Response::HTTP_BAD_REQUEST
-    //             );
-    //         }
-    //     }
-    //     if (is_null($errors)) {
-    //             $this->em->flush();
-    //         return $this->json(
-    //             $commandes,
-    //             Response::HTTP_CREATED,
-    //             [],
-    //             ["groups" => "commande-plats:details"]
-    //         );
-    //     }
-
-    // }
+            if ($form->isSubmitted() && $form->isValid()) {
+                array_push($commandes, $commandePlat);
+                $this->em->persist($commandePlat);
+            } else {
+                $errors = $this->getFormErrors($form);
+                return $this->json(
+                    $errors,
+                    Response::HTTP_BAD_REQUEST
+                );
+            }
+        }
+        if (is_null($errors)) {
+            $this->em->flush();
+            return $this->json(
+                $commandes,
+                Response::HTTP_CREATED,
+                [],
+                ["groups" => "commande-plats:details"]
+            );
+        }
+    }
 
     //   /**
     //  * @Route("/commande-details/{id}", name="commande_details_patch", methods={"PATCH"})
@@ -207,18 +205,18 @@ class CommandesController extends AbstractBaseController
     //   ) {
     //     $data = json_decode($request->getContent(), true);
     //     $form = $this->createForm(CommandeType::class, $commande);
-    
+
     //     $form->submit($data, $clearMissing);
-    
+
     //     if ($form->isSubmitted() && $form->isValid()) {
     //       $this->em->flush();
-    
+
     //       return $this->json($commande,
     //       Response::HTTP_OK,
     //       [],
     //       ["groups" => "commandes:details"]);
     //     }
-    
+
     //     $errors = $this->getFormErrors($form);
     //     return $this->json(
     //       $errors,
@@ -233,18 +231,18 @@ class CommandesController extends AbstractBaseController
     //   ) {
     //     $data = json_decode($request->getContent(), true);
     //     $form = $this->createForm(CommandePlatsType::class, $commandeDetail);
-    
+
     //     $form->submit($data, $clearMissing);
-    
+
     //     if ($form->isSubmitted() && $form->isValid()) {
     //       $this->em->flush();
-    
+
     //       return $this->json($commandeDetail,
     //       Response::HTTP_OK,
     //       [],
     //       ["groups" => "commande-plats:details"]);
     //     }
-    
+
     //     $errors = $this->getFormErrors($form);
     //     return $this->json(
     //       $errors,

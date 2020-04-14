@@ -40,13 +40,13 @@ class Restaurants extends AbstractEntity
     private $adresse;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      * @Groups({"restaurants:details"})
      */
     private $longitude;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      * @Groups({"restaurants:details"})
      */
     private $latitude;
@@ -72,7 +72,7 @@ class Restaurants extends AbstractEntity
      * @ORM\Column(type="integer")
      * @Groups({"restaurants:details"})
      */
-    private $rating;
+    private $rating = 0;
 
     /**
      * @ORM\Column(type="text", nullable=true)
