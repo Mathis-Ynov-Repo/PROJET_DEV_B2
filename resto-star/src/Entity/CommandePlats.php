@@ -10,6 +10,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * @ApiResource(
  *      normalizationContext={"groups"={"commande-plats:details"}},
+ *      collectionOperations={
+ *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"},
+ *          "post"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"}
+ *     },
+ *     itemOperations={
+ *          "get"={"security"="is_granted('ROLE_ADMIN', 'ROLE_RESTAURATEUR')  or object.getUser() == user", "security_message"="Only logged in users can access this route"},
+ *          "delete"={"security"="is_granted('ROLE_ADMIN')", "security_message"="Sorry, but you are not an admin."},
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\CommandePlatsRepository")
  */

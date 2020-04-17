@@ -13,6 +13,16 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 /**
  * @ApiResource(
  *      normalizationContext={"groups"={"commandes:details"}},
+ *      collectionOperations={
+ *          "get"={"security"="is_granted('ROLE_USER') ", "security_message"="Only logged in users can access this route"},
+ *          "post"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in restaurant owners can access this route"}
+ *     },
+ *     itemOperations={
+ *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Sorry, but you are not logged in."},
+ *          "delete"={"security"="is_granted('ROLE_ADMIN')", "security_message"="Sorry, but you are not the owner of this order."},
+ *          "put"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or object.getRestaurant().getUser() == user", 
+ *          "security_post_denormalize_message"="Sorry, but you are not the actual order owner."}
+ *     }
  * )
  * @ApiFilter(Searchfilter::class, properties={"restaurant": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\CommandesRepository")
