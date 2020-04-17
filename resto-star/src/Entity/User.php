@@ -11,7 +11,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *          "get"={"security"="is_granted('ROLE_ADMIN')", "security_message"="Only admins can see users."},
+ *          "post"
+ *     },
+ *     itemOperations={
+ *          "get"={"security"="is_granted('ROLE_ADMIN') or object == user", "security_message"="Sorry, but you are not the user."},
+ *          "delete"={"security"="is_granted('ROLE_ADMIN') or object == user", "security_message"="Sorry, but you are not the user."},
+ *          "put"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or object == user", 
+ *          "security_post_denormalize_message"="Sorry, but you are not the actual book owner."}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface

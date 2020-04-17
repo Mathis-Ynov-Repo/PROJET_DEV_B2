@@ -13,7 +13,17 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
 /**
  * @ApiResource(
  *      normalizationContext={"groups"={"plats:details"}},
- *      denormalizationContext= {"groups"={"plats:details"}}
+ *      denormalizationContext= {"groups"={"plats:details"}},
+ *      collectionOperations={
+ *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"},
+ *          "post"={"security"="is_granted('ROLE_RESTAURATEUR', 'ROLE_ADMIN')", "security_message"="Only logged in restaurant owners can access this route"}
+ *      },
+ *      itemOperations={
+ *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Sorry, but you are not logged in."},
+ *          "delete"={"security"="is_granted('ROLE_ADMIN') or object.getRestaurant().getUser() == user", "security_message"="Sorry, but you are not the owner of this restaurant this dish belongs to."},
+ *          "put"={"security_post_denormalize"="is_granted('ROLE_ADMIN') or object.getRestaurant().getUser() == user", 
+ *          "security_post_denormalize_message"="Sorry, but you are not the actual restaurant owner this dish belongs to."}
+ *      }
  * )
  * @ApiFilter(NumericFilter::class, properties={"restaurant.id": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\PlatsRepository")

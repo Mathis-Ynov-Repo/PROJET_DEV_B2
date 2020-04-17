@@ -33,7 +33,6 @@ class AuthenticationSuccessListener
         $this->em->flush();
 
         $data['user'] = [
-            'id' => $user->getId(),
             'email' => $user->getUsername(),
             'name' => $user->getName(),
             'surname' => $user->getSurname(),

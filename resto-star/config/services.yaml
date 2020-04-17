@@ -37,6 +37,9 @@ services:
   App\EventSubscriber\UserPasswordEncodingSubscriber:
     tags:
       - { name: doctrine.event_subscriber }
+  App\EventSubscriber\EntityUserIDSubscriber:
+    tags:
+      - { name: doctrine.event_subscriber }
 
   ynov_news.event.authentication_success_listener:
     class: App\EventListener\AuthenticationSuccessListener
