@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
+ *      normalizationContext={"groups"={"user_read"}},
  *      collectionOperations={
  *          "get"={"security"="is_granted('ROLE_ADMIN')", "security_message"="Only admins can see users."},
  *          "post"
@@ -83,6 +84,15 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Feedback", mappedBy="user")
      */
     private $feedback;
+
+    /**
+     * @var Image|null
+     *
+     * @ORM\ManyToOne(targetEntity=Image::class)
+     * @Groups("user_read")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $image;
 
     public function __construct()
     {
@@ -262,6 +272,17 @@ class User implements UserInterface
                 $feedback->setUser(null);
             }
         }
+
+        return $this;
+    }
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

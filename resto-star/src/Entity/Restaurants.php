@@ -15,7 +15,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
  *      normalizationContext={"groups"={"restaurants:details"}},
  *      collectionOperations={
  *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"},
- *          "post"={"security"="is_granted('ROLE_RESTAURATEUR')", "security_message"="Only logged in restaurant owners can access this route"}
+ *          "post"={"security"="is_granted('ROLE_RESTAURATEUR') or is_granted('ROLE_RESTAURATEUR')", "security_message"="Only logged in restaurant owners can access this route"}
  *     },
  *     itemOperations={
  *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Sorry, but you are not logged in."},
@@ -99,6 +99,15 @@ class Restaurants extends AbstractEntity
      * @ORM\OneToMany(targetEntity="App\Entity\Commandes", mappedBy="restaurant")
      */
     private $commandes;
+
+    /**
+     * @var Image|null
+     *
+     * @ORM\ManyToOne(targetEntity=Image::class)
+     * @Groups({"restaurants:details"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $image;
 
 
 
@@ -299,6 +308,18 @@ class Restaurants extends AbstractEntity
                 $commande->setRestaurant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

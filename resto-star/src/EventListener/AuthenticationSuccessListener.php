@@ -38,6 +38,7 @@ class AuthenticationSuccessListener
             'surname' => $user->getSurname(),
             'roles' => $user->getRoles(),
             'lastConnection' => $user->getLastConnection(),
+            'image' => $user->getImage()->filePath
         ];
 
         $event->setData($data);
