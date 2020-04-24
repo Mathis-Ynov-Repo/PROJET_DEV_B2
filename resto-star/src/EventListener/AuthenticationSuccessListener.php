@@ -37,10 +37,15 @@ class AuthenticationSuccessListener
             'email' => $user->getUsername(),
             'name' => $user->getName(),
             'surname' => $user->getSurname(),
+            'adress' => $user->getAdress(),
+            'balance' => $user->getBalance(),
             'roles' => $user->getRoles(),
             'lastConnection' => $user->getLastConnection(),
-            'image' => $user->getImage()->filePath
         ];
+
+        if ($user->getImage()) {
+            $data['user']['image'] = $user->getImage()->filePath;
+        }
 
         $event->setData($data);
     }

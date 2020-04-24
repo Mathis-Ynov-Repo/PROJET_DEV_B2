@@ -94,6 +94,18 @@ class User implements UserInterface
      */
     public $image;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups("user_read")
+     */
+    private $adress;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Groups("user_read")
+     */
+    private $balance;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -283,6 +295,30 @@ class User implements UserInterface
     public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(?string $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getBalance(): ?float
+    {
+        return $this->balance;
+    }
+
+    public function setBalance(float $balance): self
+    {
+        $this->balance = $balance;
 
         return $this;
     }
