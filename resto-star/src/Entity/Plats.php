@@ -77,6 +77,14 @@ class Plats extends AbstractEntity
      * @ORM\OneToMany(targetEntity="App\Entity\PanierDetails", mappedBy="plat")
      */
     private $panierDetails;
+    /**
+     * @var Image|null
+     *
+     * @ORM\ManyToOne(targetEntity=Image::class)
+     * @Groups({"plats:details","restaurants:details"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    public $image;
 
     public function __construct()
     {
@@ -229,6 +237,17 @@ class Plats extends AbstractEntity
                 $panierDetail->setPlat(null);
             }
         }
+
+        return $this;
+    }
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
