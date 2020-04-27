@@ -35,6 +35,11 @@ class PlatsOrMenuRestaurantIDSubscriber implements EventSubscriber
         $token = $this->tokenStorage->getToken();
 
         if ($object instanceof Plats || $object instanceof Menu && $token instanceof TokenInterface) {
+            if ($object->getRestaurant() != null) {
+                return;
+            }
+
+
             $repository = $args->getObjectManager()->getRepository(Restaurants::class);
             $object->setRestaurant($repository->findOneBy(['user' => $token->getUser()]));
         }

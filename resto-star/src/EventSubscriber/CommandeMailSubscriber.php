@@ -37,7 +37,7 @@ final class CommandeMailSubscriber implements EventSubscriberInterface
         if (!$commande instanceof Commandes || Request::METHOD_POST !== $method) {
             return;
         }
-        $plat = $commande->getCommandePlats()->get(0);
+        // $plat = $commande->getCommandePlats()->get(0);
         $dateLivraison = new DateTime($commande->getDateAchat()->format('Y-m-d H:i:s'));
 
         $dateLivraison->add(new DateInterval('PT1H'));
