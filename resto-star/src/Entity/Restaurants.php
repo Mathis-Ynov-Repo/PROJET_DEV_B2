@@ -9,6 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
@@ -25,6 +26,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
  *     }
  * )
  * @ApiFilter(NumericFilter::class, properties={"user.id": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"type.type":"exact"})
  * @ORM\Entity(repositoryClass="App\Repository\RestaurantsRepository")
  */
 class Restaurants extends AbstractEntity

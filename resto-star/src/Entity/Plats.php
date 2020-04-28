@@ -86,6 +86,12 @@ class Plats extends AbstractEntity
      */
     public $image;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details", "commandes:details"})
+     */
+    private $description;
+
     public function __construct()
     {
         $this->commandePlats = new ArrayCollection();
@@ -248,6 +254,18 @@ class Plats extends AbstractEntity
     public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
