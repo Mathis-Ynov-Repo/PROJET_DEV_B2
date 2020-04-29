@@ -106,10 +106,17 @@ class User implements UserInterface
      */
     private $balance;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Plats", mappedBy="likes")
+     * @Groups("user_read")
+     */
+    private $plats;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
         $this->feedback = new ArrayCollection();
+        $this->plats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -319,6 +326,34 @@ class User implements UserInterface
     public function setBalance(float $balance): self
     {
         $this->balance = $balance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Plats[]
+     */
+    public function getPlats(): Collection
+    {
+        return $this->plats;
+    }
+
+    public function addPlat(Plats $plat): self
+    {
+        if (!$this->plats->contains($plat)) {
+            $this->plats[] = $plat;
+            $plat->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlat(Plats $plat): self
+    {
+        if ($this->plats->contains($plat)) {
+            $this->plats->removeElement($plat);
+            $plat->removeLike($this);
+        }
 
         return $this;
     }

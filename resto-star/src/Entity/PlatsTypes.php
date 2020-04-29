@@ -26,7 +26,7 @@ class PlatsTypes
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"plats:details", "platsTypes:details",  "restaurants:details"})
+     * @Groups({"plats:details", "platsTypes:details",  "restaurants:details", "user_read"})
      */
     private $libelle;
 

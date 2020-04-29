@@ -34,26 +34,26 @@ class Plats extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details"})
+     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details", "user_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details", "commandes:details"})
+     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details", "commandes:details", "user_read"})
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"plats:details","panier-details:details", "commande-plats:details", "restaurants:details"})
+     * @Groups({"plats:details","panier-details:details", "commande-plats:details", "restaurants:details", "user_read"})
      */
     private $prix;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Restaurants", inversedBy="plats")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"plats:details","panier-details:details", "commande-plats:details"})
+     * @Groups({"plats:details","panier-details:details", "commande-plats:details", "user_read"})
      */
     private $restaurant;
 
@@ -69,7 +69,7 @@ class Plats extends AbstractEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlatsTypes", inversedBy="plats")
-     * @Groups({"plats:details", "restaurants:details"})
+     * @Groups({"plats:details", "restaurants:details", "user_read"})
      */
     private $platType;
 
@@ -92,12 +92,19 @@ class Plats extends AbstractEntity
      */
     private $description;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="plats")
+     * @Groups("plats:details")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->commandePlats = new ArrayCollection();
         $this->menuDetails = new ArrayCollection();
         $this->paniers = new ArrayCollection();
         $this->panierDetails = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -266,6 +273,32 @@ class Plats extends AbstractEntity
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(User $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+        }
+
+        return $this;
+    }
+
+    public function removeLike(User $like): self
+    {
+        if ($this->likes->contains($like)) {
+            $this->likes->removeElement($like);
+        }
 
         return $this;
     }

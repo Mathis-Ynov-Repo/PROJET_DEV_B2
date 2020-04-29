@@ -7,6 +7,7 @@ use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class AuthenticationSuccessListener
 {
@@ -41,8 +42,8 @@ class AuthenticationSuccessListener
             'balance' => $user->getBalance(),
             'roles' => $user->getRoles(),
             'lastConnection' => $user->getLastConnection(),
-        ];
 
+        ];
         if ($user->getImage()) {
             $data['user']['image'] = $user->getImage()->filePath;
         }
