@@ -41,6 +41,7 @@ class User implements UserInterface
      * @Assert\Email(
      *      message = "This email is not a valid email."
      * )
+     * @Assert\NotBlank
      * @Groups("user_read")
      */
     private $email;
@@ -54,6 +55,11 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(
+     *      min = 8,
+     *      minMessage = "Your password must be at least {{ limit }} characters long",
+     *      allowEmptyString = false
+     * )
      */
     private $password;
 
@@ -71,12 +77,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("user_read")
+     * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("user_read")
+     * @Assert\NotBlank
      */
     private $surname;
 
@@ -103,6 +111,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="float", nullable=true)
      * @Groups("user_read")
+     * @Assert\Type("float")
      */
     private $balance;
 

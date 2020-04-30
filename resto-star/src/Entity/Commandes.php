@@ -24,7 +24,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *          "security_post_denormalize_message"="Sorry, but you are not the actual order owner."}
  *     }
  * )
- * @ApiFilter(Searchfilter::class, properties={"restaurant": "exact", "statut": "exact"})
+ * @ApiFilter(Searchfilter::class, properties={"restaurant": "exact", "statut": "exact", "user": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\CommandesRepository")
  */
 class Commandes extends AbstractEntity

@@ -11,6 +11,7 @@ use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class EntityUserIDSubscriber implements EventSubscriber
 {
@@ -33,6 +34,13 @@ class EntityUserIDSubscriber implements EventSubscriber
         $object = $args->getObject();
         $token = $this->tokenStorage->getToken();
 
+        //Admins must be able to create as much restaurants as they want
+
+        if ($token->getUser() instanceof UserInterface && in_array("ROLE_ADMIN", $token->getUser()->getRoles())) {
+            return;
+        }
+
+        //Adds the user ID to restaurant (can only create 1), also adds userID to an order
         if ($object instanceof Commandes || $object instanceof Restaurants && $token instanceof TokenInterface) {
             $object->setUser($token->getUser());
         }
