@@ -70,7 +70,7 @@ class Image
     /**
      * @var string|null
      * @ORM\Column(nullable=true)
-     * @Groups({"restaurants:details", "user_read", "plats:details"})
+     * @Groups({"restaurants:details", "user_read", "plats:details", "menus:details"})
      */
     public $filePath;
 

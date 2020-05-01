@@ -34,19 +34,19 @@ class Plats extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details", "user_read"})
+     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details", "user_read","menus:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details", "commandes:details", "user_read"})
+     * @Groups({"plats:details", "panier-details:details", "commande-plats:details", "restaurants:details", "commandes:details", "user_read", "menus:details"})
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"plats:details","panier-details:details", "commande-plats:details", "restaurants:details", "user_read"})
+     * @Groups({"plats:details","panier-details:details", "commande-plats:details", "restaurants:details", "user_read", "menus:details"})
      */
     private $prix;
 
@@ -81,7 +81,7 @@ class Plats extends AbstractEntity
      * @var Image|null
      *
      * @ORM\ManyToOne(targetEntity=Image::class)
-     * @Groups({"plats:details","restaurants:details"})
+     * @Groups({"plats:details","restaurants:details", "menus:details"})
      * @ORM\JoinColumn(nullable=true)
      */
     public $image;

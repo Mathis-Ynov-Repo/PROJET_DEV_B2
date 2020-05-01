@@ -31,6 +31,7 @@ class MenuDetails extends AbstractEntity
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plats", inversedBy="menuDetails")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"menus:details","commande-plats:details"})
      */
     private $plat;
 
@@ -62,5 +63,4 @@ class MenuDetails extends AbstractEntity
 
         return $this;
     }
-
 }

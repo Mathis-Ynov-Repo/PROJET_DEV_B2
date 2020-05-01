@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
@@ -22,6 +24,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *          "security_post_denormalize_message"="Sorry, but you are not the actual restaurant owner this dish belongs to."}
  *      }
  * )
+ * @ApiFilter(SearchFilter::class, properties={"restaurant": "exact"})
  * @ORM\Entity(repositoryClass="App\Repository\MenuRepository")
  */
 class Menu extends AbstractEntity
@@ -53,6 +56,7 @@ class Menu extends AbstractEntity
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\MenuDetails", mappedBy="menu")
+     * @Groups({"menus:details","commande-plats:details"})
      */
     private $menuDetails;
 
