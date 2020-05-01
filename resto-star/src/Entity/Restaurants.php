@@ -77,6 +77,7 @@ class Restaurants extends AbstractEntity
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Menu", mappedBy="restaurant")
+     * @Groups({"restaurants:details"})
      */
     private $menus;
 

@@ -18,7 +18,7 @@ class MenuDetails extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * 
+     * @Groups({"menus:details","commande-plats:details", "restaurants:details"})
      */
     private $id;
 
@@ -31,7 +31,7 @@ class MenuDetails extends AbstractEntity
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plats", inversedBy="menuDetails")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"menus:details","commande-plats:details"})
+     * @Groups({"menus:details","commande-plats:details", "restaurants:details"})
      */
     private $plat;
 

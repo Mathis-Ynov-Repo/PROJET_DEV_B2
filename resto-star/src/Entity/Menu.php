@@ -33,19 +33,19 @@ class Menu extends AbstractEntity
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"menus:details", "panier-details:details", "commande-plats:details"})
+     * @Groups({"menus:details", "panier-details:details", "commande-plats:details", "restaurants:details"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"menus:details","panier-details:details", "commande-plats:details"})
+     * @Groups({"menus:details","panier-details:details", "commande-plats:details", "restaurants:details"})
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"menus:details","panier-details:details", "commande-plats:details"})
+     * @Groups({"menus:details","panier-details:details", "commande-plats:details", "restaurants:details"})
      */
     private $prix;
 
@@ -55,8 +55,8 @@ class Menu extends AbstractEntity
     private $commandePlats;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MenuDetails", mappedBy="menu")
-     * @Groups({"menus:details","commande-plats:details"})
+     * @ORM\OneToMany(targetEntity="App\Entity\MenuDetails", mappedBy="menu", cascade={"persist", "remove"})
+     * @Groups({"menus:details","commande-plats:details", "restaurants:details"})
      */
     private $menuDetails;
 
