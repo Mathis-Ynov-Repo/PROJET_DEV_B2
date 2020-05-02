@@ -63,7 +63,7 @@ class Plats extends AbstractEntity
     private $commandePlats;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MenuDetails", mappedBy="plat")
+     * @ORM\OneToMany(targetEntity="App\Entity\MenuDetails", mappedBy="plat" ,cascade={"persist", "remove"})
      */
     private $menuDetails;
 

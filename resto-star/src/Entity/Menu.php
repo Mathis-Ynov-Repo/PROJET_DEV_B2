@@ -15,7 +15,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *      normalizationContext={"groups"={"menus:details"}},
  *      collectionOperations={
  *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"},
- *          "post"={"security"="is_granted('ROLE_RESTAURATEUR', 'ROLE_ADMIN')", "security_message"="Only logged in restaurant owners can access this route"}
+ *          "post"={"security"="is_granted('ROLE_RESTAURATEUR') or is_granted('ROLE_ADMIN')", "security_message"="Only logged in restaurant owners can access this route"}
  *      },
  *      itemOperations={
  *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Sorry, but you are not logged in."},

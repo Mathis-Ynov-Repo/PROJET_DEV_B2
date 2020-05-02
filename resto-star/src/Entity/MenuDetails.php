@@ -23,7 +23,7 @@ class MenuDetails extends AbstractEntity
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Menu", inversedBy="menuDetails")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Menu", inversedBy="menuDetails" ,cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $menu;
