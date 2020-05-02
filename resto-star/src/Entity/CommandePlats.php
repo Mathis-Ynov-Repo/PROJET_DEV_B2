@@ -46,6 +46,7 @@ class CommandePlats extends AbstractEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Plats", inversedBy="commandePlats")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      * @Groups({"commande-plats:details", "commandes:details"})
      */
     private $plat;
