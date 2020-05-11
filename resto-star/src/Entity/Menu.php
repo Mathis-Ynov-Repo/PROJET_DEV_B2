@@ -39,7 +39,7 @@ class Menu extends AbstractEntity
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"menus:details","panier-details:details", "commande-plats:details", "restaurants:details"})
+     * @Groups({"menus:details","panier-details:details", "commande-plats:details", "commandes:details", "restaurants:details"})
      */
     private $libelle;
 
