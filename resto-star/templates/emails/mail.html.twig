@@ -5,7 +5,11 @@
 <h3>The list of ordered dishes is available below.<h3>
 <ul>
 {% for plat in commande.getCommandePlats %}
-    <li>  {{plat.quantity}}x {{plat.getPlat.getLibelle}} ({{plat.getPlat.getPrix}}$)</li>
+    {% if plat.getPlat %}
+        <li>  {{plat.quantity}}x {{plat.getPlat.getLibelle}} ({{plat.getPlat.getPrix}}$)</li>
+    {% else %}
+        <li>  {{plat.quantity}}x {{plat.getMenu.getLibelle}} ({{plat.getMenu.getPrix}}$)</li>
+    {% endif %}
 {% endfor %}
 </ul>
 <h4>Customer's Adresss : {{commande.getUser.getAdress}},<h4>
