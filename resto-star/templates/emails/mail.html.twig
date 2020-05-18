@@ -1,0 +1,13 @@
+{# templates/emails/registration.html.twig #}
+<h2>A new Order has been Placed !</h2>
+
+<h3>Hi You have a new order #{{commande.getId}} ( {{commande.getPrix}}$ ).</h3>
+<h3>The list of ordered dishes is available below.<h3>
+<ul>
+{% for plat in commande.getCommandePlats %}
+    <li>  {{plat.quantity}}x {{plat.getPlat.getLibelle}} ({{plat.getPlat.getPrix}}$)</li>
+{% endfor %}
+</ul>
+<h4>Customer's Adresss : {{commande.getUser.getAdress}},<h4>
+<p>Estimated Delivery Time : {{dateLivraison.format('d/m/Y H:i:s')}}</p>
+            

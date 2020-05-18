@@ -58,6 +58,12 @@ class CommandePlats extends AbstractEntity
      */
     private $menu;
 
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"commande-plats:details", "commandes:details"})
+     */
+    private $quantity;
+
 
     public function getId(): ?int
     {
@@ -108,6 +114,18 @@ class CommandePlats extends AbstractEntity
     public function setMenu(?Menu $menu): self
     {
         $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

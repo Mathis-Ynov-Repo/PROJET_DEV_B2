@@ -16,7 +16,7 @@ class CommandePlatsType extends AbstractType
             ->add('commande')
             ->add('plat')
             ->add('menu')
-        ;
+            ->add('quantity');
     }
 
     public function configureOptions(OptionsResolver $resolver)
