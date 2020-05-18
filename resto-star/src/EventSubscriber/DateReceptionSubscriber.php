@@ -22,7 +22,7 @@ class DateReceptionSubscriber implements EventSubscriber
     {
         $object = $args->getObject();
 
-        if ($object instanceof Commandes && $object->getStatut() != 'livrée') {
+        if ($object instanceof Commandes && $object->getStatut() == 'livrée') {
             $object->setDateReception(new DateTime('now', new DateTimeZone('Europe/Paris')));
         }
     }
