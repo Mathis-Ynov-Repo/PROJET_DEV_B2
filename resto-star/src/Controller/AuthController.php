@@ -27,7 +27,6 @@ class AuthController extends AbstractBaseController
 
             $em->persist($user);
             $em->flush();
-            // $this->fooAction($user);
 
             return $this->json(
                 $user,
@@ -42,10 +41,4 @@ class AuthController extends AbstractBaseController
             Response::HTTP_BAD_REQUEST
         );
     }
-    // public function fooAction(User $user)
-    // {
-    //     $authenticationSuccessHandler = $this->container->get('lexik_jwt_authentication.handler.authentication_success');
-
-    //     return $authenticationSuccessHandler->handleAuthenticationSuccess($user);
-    // }
 }
