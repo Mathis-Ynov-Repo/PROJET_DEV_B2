@@ -9,7 +9,7 @@ abstract class AbstractEntity
 {
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"restaurants:details", "panier-details:details"})
+     * @Groups("restaurants:details")
      */
     protected $created;
 
