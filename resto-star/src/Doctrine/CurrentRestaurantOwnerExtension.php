@@ -30,6 +30,8 @@ final class CurrentRestaurantOwnerExtension implements QueryCollectionExtensionI
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
+        //Permet de ne renvoyer que le restaurant du restaurateur
+
         if ($resourceClass !== Restaurants::class || !$this->security->isGranted('ROLE_RESTAURATEUR') || null === $user = $this->security->getUser()) {
             return;
         }

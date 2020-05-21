@@ -34,6 +34,7 @@ final class MenusExtension implements QueryCollectionExtensionInterface, QueryIt
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
+        //Permet de ne renvoyer que les menus du restaurant que possede le restaurateur
         if ($resourceClass !== Menu::class || !$this->security->isGranted('ROLE_RESTAURATEUR') || null === $user = $this->security->getUser()) {
             return;
         }

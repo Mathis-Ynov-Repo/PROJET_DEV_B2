@@ -9,9 +9,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Dto\CommandesOutput;
 
 /**
  * @ApiResource(
+ *      output=CommandesOutput::class,
  *      normalizationContext={"groups"={"commandes:details"}},
  *      collectionOperations={
  *          "get"={"security"="is_granted('ROLE_USER') ", "security_message"="Only logged in users can access this route"},
@@ -76,6 +78,7 @@ class Commandes extends AbstractEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="commandes")
+     * @Groups("commandes:details")
      */
     private $user;
 

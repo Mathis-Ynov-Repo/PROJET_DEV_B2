@@ -34,6 +34,7 @@ final class PlatsExtension implements QueryCollectionExtensionInterface, QueryIt
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
+        //Permet de ne renvoyer que les plats du restaurant que possede le restaurateur
         if ($resourceClass !== Plats::class || !$this->security->isGranted('ROLE_RESTAURATEUR') || null === $user = $this->security->getUser()) {
             return;
         }

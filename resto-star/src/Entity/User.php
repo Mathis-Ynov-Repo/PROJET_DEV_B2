@@ -42,7 +42,7 @@ class User implements UserInterface
      *      message = "This email is not a valid email."
      * )
      * @Assert\NotBlank
-     * @Groups("user_read")
+     * @Groups({"user_read", "commandes:details"})
      */
     private $email;
 
@@ -104,7 +104,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups("user_read")
+     * @Groups({"user_read", "commandes:details"})
      */
     private $adress;
 
