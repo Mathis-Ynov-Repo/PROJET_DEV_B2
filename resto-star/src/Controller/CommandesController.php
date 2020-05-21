@@ -60,7 +60,7 @@ class CommandesController extends AbstractBaseController
             $dateLivraison = new DateTime($commande->getDateAchat()->format('Y-m-d H:i:s'));
 
             $dateLivraison->add(new DateInterval('PT1H'));
-            $message = (new \Swift_Message('A new command has been added'))
+            $message = (new \Swift_Message('A new order has been added'))
                 ->setFrom('eyzex972@gmail.com')
                 ->setTo('contact@les-tilleuls.coop')
                 ->setBody(
