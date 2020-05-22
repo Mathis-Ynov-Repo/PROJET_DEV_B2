@@ -40,6 +40,7 @@ final class RestaurantsOutputDataTransformer implements DataTransformerInterface
         $output->image = $object->getImage();
         $output->feedback = $feedbacks;
         $output->numberOfRatings = $NumberOfRating;
+        $output->created = $object->getCreated();
         if ($NumberOfRating > 0) {
             $output->rating = round($totalRating / $NumberOfRating);
         } else {

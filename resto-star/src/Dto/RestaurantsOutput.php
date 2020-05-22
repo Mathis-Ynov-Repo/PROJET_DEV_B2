@@ -50,4 +50,8 @@ final class RestaurantsOutput
      * @Groups({"restaurants:details"})
      */
     public $numberOfRatings;
+    /**
+     * @Groups({"restaurants:details"})
+     */
+    public $created;
 }
