@@ -9,6 +9,7 @@ use App\Dto\FeedbackOutput;
 /**
  * @ApiResource(
  *      output=FeedbackOutput::class,
+ *      normalizationContext={"groups"={"feedback:details"}},
  *      collectionOperations={
  *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"},
  *          "post"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"}

@@ -42,7 +42,7 @@ class User implements UserInterface
      *      message = "This email is not a valid email."
      * )
      * @Assert\NotBlank
-     * @Groups({"user_read", "commandes:details"})
+     * @Groups({"user_read", "commandes:details", "feedback:details"})
      */
     private $email;
 

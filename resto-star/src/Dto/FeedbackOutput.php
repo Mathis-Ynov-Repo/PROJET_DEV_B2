@@ -19,7 +19,7 @@ final class FeedbackOutput
      */
     public $user;
     /**
-     * @Groups({"feedback:details"})
+     * @Groups("feedback:details")
      */
     public $restaurant;
     /**

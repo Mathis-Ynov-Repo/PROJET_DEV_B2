@@ -11,7 +11,7 @@ final class RestaurantsOutput
      */
     public $id;
     /**
-     * @Groups({"plats:details", "restaurants:details", "menus:details", "commande-plats:details", "user_read"})
+     * @Groups({"plats:details", "restaurants:details", "menus:details", "commande-plats:details", "user_read", "feedback:details"})
      */
     public $libelle;
     /**
