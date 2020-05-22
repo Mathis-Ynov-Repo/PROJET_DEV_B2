@@ -10,9 +10,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Dto\RestaurantsOutput;
+
 
 /**
  * @ApiResource(
+ *      output=RestaurantsOutput::class,
  *      normalizationContext={"groups"={"restaurants:details"}},
  *      collectionOperations={
  *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"},
@@ -82,12 +85,6 @@ class Restaurants extends AbstractEntity
     private $menus;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Groups({"restaurants:details"})
-     */
-    private $rating = 0;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups({"restaurants:details"})
      */
@@ -112,6 +109,12 @@ class Restaurants extends AbstractEntity
      */
     public $image;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Feedback", mappedBy="restaurant")
+     * @Groups({"restaurants:details"})
+     */
+    private $feedback;
+
 
 
     public function __construct()
@@ -119,6 +122,7 @@ class Restaurants extends AbstractEntity
         $this->plats = new ArrayCollection();
         $this->menus = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->feedback = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -248,18 +252,6 @@ class Restaurants extends AbstractEntity
         return $this;
     }
 
-    public function getRating(): ?int
-    {
-        return $this->rating;
-    }
-
-    public function setRating(int $rating): self
-    {
-        $this->rating = $rating;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -323,6 +315,37 @@ class Restaurants extends AbstractEntity
     public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Feedback[]
+     */
+    public function getFeedback(): Collection
+    {
+        return $this->feedback;
+    }
+
+    public function addFeedback(Feedback $feedback): self
+    {
+        if (!$this->feedback->contains($feedback)) {
+            $this->feedback[] = $feedback;
+            $feedback->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedback(Feedback $feedback): self
+    {
+        if ($this->feedback->contains($feedback)) {
+            $this->feedback->removeElement($feedback);
+            // set the owning side to null (unless already changed)
+            if ($feedback->getRestaurant() === $this) {
+                $feedback->setRestaurant(null);
+            }
+        }
 
         return $this;
     }

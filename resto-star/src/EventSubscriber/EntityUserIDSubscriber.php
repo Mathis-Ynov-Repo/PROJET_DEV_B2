@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\AbstractEntity;
 use App\Entity\Commandes;
+use App\Entity\Feedback;
 use App\Entity\Restaurants;
 use DateTime;
 use Doctrine\Common\EventSubscriber;
@@ -41,7 +42,7 @@ class EntityUserIDSubscriber implements EventSubscriber
         }
 
         //Adds the user ID to restaurant (can only create 1), also adds userID to an order
-        if ($object instanceof Commandes || $object instanceof Restaurants && $token instanceof TokenInterface) {
+        if ($object instanceof Commandes || $object instanceof Feedback || $object instanceof Restaurants && $token instanceof TokenInterface) {
             $object->setUser($token->getUser());
         }
     }

@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Dto\FeedbackOutput;
 
 /**
  * @ApiResource(
+ *      output=FeedbackOutput::class,
  *      collectionOperations={
  *          "get"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"},
  *          "post"={"security"="is_granted('ROLE_USER')", "security_message"="Only logged in users can access this route"}
@@ -39,6 +41,16 @@ class Feedback extends AbstractEntity
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Restaurants", inversedBy="feedback")
+     */
+    private $restaurant;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $rating;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,6 +76,30 @@ class Feedback extends AbstractEntity
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getRestaurant(): ?Restaurants
+    {
+        return $this->restaurant;
+    }
+
+    public function setRestaurant(?Restaurants $restaurant): self
+    {
+        $this->restaurant = $restaurant;
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }

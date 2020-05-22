@@ -76,14 +76,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("user_read")
+     * @Groups({"user_read","feedback:details", "restaurants:details"})
      * @Assert\NotBlank
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("user_read")
+     * @Groups({"user_read","feedback:details", "restaurants:details"})
      * @Assert\NotBlank
      */
     private $surname;
@@ -97,7 +97,7 @@ class User implements UserInterface
      * @var Image|null
      *
      * @ORM\ManyToOne(targetEntity=Image::class)
-     * @Groups("user_read")
+     * @Groups({"user_read", "feedback:details", "restaurants:details"})
      * @ORM\JoinColumn(nullable=true)
      */
     public $image;
