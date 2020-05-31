@@ -17,3 +17,4 @@ La table **menu_details** permet de lier un menu aux plats le constituant.
 
 La table **commande** s’occupe de stocker les frais de la livraison et le prix de la commande après ces frais ainsi que les dates d’achat et de réception de la commande.
 La table **commande_plats** liée à cette table s’occupe elle de conserver les détails de cette commande, les plats ou menu la composant et le prix total sans les frais.
+**Feedback** contient les reviews des utilisateurs sur les restaurants
