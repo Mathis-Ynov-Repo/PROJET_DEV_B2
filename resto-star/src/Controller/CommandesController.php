@@ -60,9 +60,11 @@ class CommandesController extends AbstractBaseController
             $dateLivraison = new DateTime($commande->getDateAchat()->format('Y-m-d H:i:s'));
 
             $dateLivraison->add(new DateInterval('PT1H'));
+            $restaurantMail = $commande->getRestaurant()->getUser()->getEmail();
             $message = (new \Swift_Message('A new order has been added'))
                 ->setFrom('eyzex972@gmail.com')
-                ->setTo('contact@les-tilleuls.coop')
+                //->setTo('contact@les-tilleuls.coop')
+                ->setTo($restaurantMail)
                 ->setBody(
                     $this->renderView(
                         'emails/mail.html.twig',
