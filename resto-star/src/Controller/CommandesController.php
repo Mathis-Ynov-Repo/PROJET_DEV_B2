@@ -63,7 +63,6 @@ class CommandesController extends AbstractBaseController
             $restaurantMail = $commande->getRestaurant()->getUser()->getEmail();
             $message = (new \Swift_Message('A new order has been added'))
                 ->setFrom('eyzex972@gmail.com')
-                //->setTo('contact@les-tilleuls.coop')
                 ->setTo($restaurantMail)
                 ->setBody(
                     $this->renderView(
